@@ -1,8 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import Head from "next/head";
 
-import Layout from "../components/layout";
-
 import customTheme from "../styles/customTheme";
 import "../styles/globals.css";
 
@@ -13,11 +11,9 @@ const MyApp = ({ Component, pageProps }) => {
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
-        />
+        ></meta>
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
     </ChakraProvider>
   );
 };
