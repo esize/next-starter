@@ -1,8 +1,8 @@
 {
-  "name": "nextchakra-starter",
+  "name": "next-starter",
   "version": "0.1.0",
-  "private": true,
-  "author": "sozonome",
+  "private": false,
+  "author": "esize",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
