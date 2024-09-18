@@ -9,7 +9,7 @@ export const env = createEnv({
     DB_HOST: z.string(),
     DB_USER: z.string(),
     DB_PASSWORD: z.string(),
-    DB_DATABASE: z.string(),
+    DB_NAME: z.string(),
     DB_PORT: z.coerce.number().default(5432),
     DATABASE_URL: z.string().url(),
   },
