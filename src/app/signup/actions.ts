@@ -17,7 +17,7 @@ import { formSchema } from "./form";
 export default async function Page() {}
 
 export async function signup(formData: z.infer<typeof formSchema>) {
-  const username = formData.username;
+  const username = formData.username.toLocaleLowerCase() as string;
   // username must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
   // keep in mind some database (e.g. mysql) are case insensitive
   if (

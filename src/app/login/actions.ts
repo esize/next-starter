@@ -5,17 +5,16 @@ import { redirect } from "next/navigation";
 
 import { verify } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 import db from "@/db";
 import { users } from "@/db/schema";
 import { lucia } from "@/lib/auth";
 
-import { ActionResult } from "../signup/page";
+import { formSchema } from "./form";
 
-export default async function Page() {}
-
-export async function login(formData: FormData): Promise<ActionResult> {
-  const username = formData.get("username");
+export async function login(formData: z.infer<typeof formSchema>) {
+  const username = formData.username as string;
   if (
     typeof username !== "string" ||
     username.length < 3 ||
@@ -23,17 +22,17 @@ export async function login(formData: FormData): Promise<ActionResult> {
     !/^[a-z0-9_-]+$/.test(username)
   ) {
     return {
-      error: "Invalid username",
+      errors: { root: "Incorrect username or password" },
     };
   }
-  const password = formData.get("password");
+  const password = formData.password as string;
   if (
     typeof password !== "string" ||
     password.length < 6 ||
     password.length > 255
   ) {
     return {
-      error: "Invalid password",
+      errors: { root: "Incorrect username or password" },
     };
   }
 
@@ -41,17 +40,8 @@ export async function login(formData: FormData): Promise<ActionResult> {
     where: eq(users.username, username.toLocaleLowerCase()),
   });
   if (!existingUser) {
-    // NOTE:
-    // Returning immediately allows malicious actors to figure out valid usernames from response times,
-    // allowing them to only focus on guessing passwords in brute-force attacks.
-    // As a preventive measure, you may want to hash passwords even for invalid usernames.
-    // However, valid usernames can be already be revealed with the signup page among other methods.
-    // It will also be much more resource intensive.
-    // Since protecting against this is non-trivial,
-    // it is crucial your implementation is protected against brute-force attacks with login throttling etc.
-    // If usernames are public, you may outright tell the user that the username is invalid.
     return {
-      error: "Incorrect username or password",
+      errors: { root: "Incorrect username or password" },
     };
   }
 
@@ -63,7 +53,7 @@ export async function login(formData: FormData): Promise<ActionResult> {
   });
   if (!validPassword) {
     return {
-      error: "Incorrect username or password",
+      errors: { root: "Incorrect username or password" },
     };
   }
 
