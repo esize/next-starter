@@ -6,6 +6,12 @@ export const env = createEnv({
   // Declare our server-side environment variables
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    DB_HOST: z.string(),
+    DB_USER: z.string(),
+    DB_PASSWORD: z.string(),
+    DB_DATABASE: z.string(),
+    DB_PORT: z.coerce.number().default(5432),
+    DATABASE_URL: z.string().url(),
   },
 
   // Declare our server-side environment variables
