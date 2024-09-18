@@ -2,6 +2,7 @@
   "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
   "plugins": ["check-file"],
   "rules": {
+    "react/no-unescaped-entities": "off",
     "prefer-arrow-callback": ["error"],
     "prefer-template": ["error"],
     "check-file/filename-naming-convention": [
