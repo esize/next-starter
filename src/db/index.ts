@@ -5,5 +5,9 @@ import { env } from "@/env";
 
 import * as schema from "./schema";
 
-export const client = postgres(env.DATABASE_URL);
-export const db = drizzle(client, { schema });
+export const client = postgres(env.DATABASE_URL, {
+  max: env.DB_MIGRATING ? 1 : undefined,
+});
+const db = drizzle(client, { schema });
+
+export default db;

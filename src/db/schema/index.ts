@@ -1,2 +1,4 @@
-export { default as sessions } from "./session";
-export { default as users } from "./user";
+import sessions from "./session";
+import users from "./user";
+
+export { sessions, users };

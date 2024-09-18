@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier src/ --write"
+    "format": "prettier src/ --write",
+    "db:migrate": "DB_MIGRATING=true drizzle-kit migrate"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.0",
