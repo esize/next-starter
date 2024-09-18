@@ -9,4 +9,7 @@ services:
     ports:
       - ${DB_PORT}:5432
     volumes:
-      - ./.docker-data/db:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

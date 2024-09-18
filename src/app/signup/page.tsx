@@ -1,18 +1,29 @@
-import { signup } from "./actions";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-export default async function Page() {
+import { SignupForm } from "./form";
+
+export default async function SignupPage() {
   return (
     <>
-      <h1>Create an account</h1>
-      <form action={signup}>
-        <label htmlFor="username">Username</label>
-        <input name="username" id="username" />
-        <br />
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" />
-        <br />
-        <button>Continue</button>
-      </form>
+      <main className="mt-8 flex w-full flex-col items-center">
+        <Card className="mx-auto max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-xl">Sign Up</CardTitle>
+            <CardDescription>
+              Enter your information to create an account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SignupForm />
+          </CardContent>
+        </Card>
+      </main>
     </>
   );
 }

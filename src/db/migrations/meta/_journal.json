@@ -15,6 +15,13 @@
       "when": 1726628463372,
       "tag": "0001_military_stepford_cuckoos",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726633018255,
+      "tag": "0002_overrated_eddie_brock",
+      "breakpoints": true
     }
   ]
 }

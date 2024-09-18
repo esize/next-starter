@@ -4,17 +4,20 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { hash } from "@node-rs/argon2";
+import { eq } from "drizzle-orm";
 import { generateIdFromEntropySize } from "lucia";
-import { ActionResult } from "next/dist/server/app-render/types";
+import { z } from "zod";
 
 import db from "@/db";
 import { users } from "@/db/schema";
 import { lucia } from "@/lib/auth";
 
+import { formSchema } from "./form";
+
 export default async function Page() {}
 
-export async function signup(formData: FormData): Promise<ActionResult> {
-  const username = formData.get("username");
+export async function signup(formData: z.infer<typeof formSchema>) {
+  const username = formData.username;
   // username must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
   // keep in mind some database (e.g. mysql) are case insensitive
   if (
@@ -24,17 +27,24 @@ export async function signup(formData: FormData): Promise<ActionResult> {
     !/^[a-z0-9_-]+$/.test(username)
   ) {
     return {
-      error: "Invalid username",
+      errors: { username: "Invalid username" },
+    };
+  } else if (
+    (await db.select().from(users).where(eq(users.username, username))).length >
+    0
+  ) {
+    return {
+      errors: { username: "Username already exists" },
     };
   }
-  const password = formData.get("password");
+  const password = formData.password;
   if (
     typeof password !== "string" ||
     password.length < 6 ||
     password.length > 255
   ) {
     return {
-      error: "Invalid password",
+      errors: { password: "Invalid password" },
     };
   }
 
@@ -47,11 +57,12 @@ export async function signup(formData: FormData): Promise<ActionResult> {
   });
   const userId = generateIdFromEntropySize(10); // 16 characters long
 
-  // TODO: check if username is already used
   await db.insert(users).values({
     id: userId,
     username: username,
     password_hash: passwordHash,
+    first_name: formData.first_name,
+    last_name: formData.last_name,
   });
 
   const session = await lucia.createSession(userId, {});
