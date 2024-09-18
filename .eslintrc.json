@@ -1,10 +1,13 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
-  "plugins": ["check-file"],
+  "plugins": ["check-file", "n"],
   "rules": {
     "react/no-unescaped-entities": "off",
     "prefer-arrow-callback": ["error"],
     "prefer-template": ["error"],
+    "semi": ["error"],
+    "quotes": ["error", "double"],
+    "n/no-process-env": ["error"],
     "check-file/filename-naming-convention": [
       "error",
       {

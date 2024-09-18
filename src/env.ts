@@ -1,3 +1,4 @@
+/* eslint-disable n/no-process-env */
 import { createEnv } from "@t3-oss/env-nextjs";
 import { ZodError, z } from "zod";
 
@@ -12,6 +13,7 @@ export const env = createEnv({
 
   // Declare our client-side environment variables from process.env
   experimental__runtimeEnv: {},
+
   emptyStringAsUndefined: true,
   // Called when the schema validation fails.
   onValidationError: (error: ZodError) => {
