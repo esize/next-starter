@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 import {
   Card,
   CardContent,
@@ -5,8 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { validateRequest } from "@/lib/auth";
 
-export default function Home() {
+export default async function Home() {
+  const { user } = await validateRequest();
+  if (!user) {
+    return redirect("/login");
+  }
   return (
     <main className="mt-8 flex flex-col items-center">
       <Card>
